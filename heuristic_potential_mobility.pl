@@ -54,5 +54,5 @@ whatColorIsThisIndex(Board, Index, Color):- nth0(Index, Board, Color).
 
 
 heuristic_potential_mobility_compute(_,_,0,H):- H is 0.                         %mobilitéP1 - %mobilitéP2
-heuristic_potential_mobility_compute(NbEmptyP1,NbEmptyP2,Somme,H):- H is 100 * (NbEmptyP2-NbEmptyP1) / Somme.
+heuristic_potential_mobility_compute(NbEmptyP1,NbEmptyP2,Somme,H):- H is (100 * (NbEmptyP2-NbEmptyP1) / Somme ).
     
