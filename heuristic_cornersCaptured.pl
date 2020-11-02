@@ -1,6 +1,6 @@
 % CORNERS CAPTURED HEURISTICS
 
-:- writeln('Corners Captured Heuristics loaded.').
+:- writeln('Corners Captured heuristic has loaded.').
 
 % P1 is the current player while P2 is the ennemy
 % Corners Captured
@@ -19,12 +19,12 @@ heuristic_cornersCaptured(Board, P1, P2, H) :-
 getCorners(Board, Corners) :- getCorners(Board, Corners, 0).
 getCorners([],[],64).
 getCorners([D|B], [D|C], I) :- (I==0 ; I==7 ; I==56; I==63) , J is I+1, getCorners(B, C, J).
-getCorners([D|B], C, I) :-  J is I+1, getCorners(B, C, J).
+getCorners([_|B], C, I) :-  J is I+1, getCorners(B, C, J).
 
-countByPlayer([], P, 0).
+countByPlayer([], _, 0).
 countByPlayer([D|C], P, NbDiskP) :- var(D), countByPlayer(C, P, NbDiskP).
 countByPlayer([P|C], P, NbDiskP) :- countByPlayer(C, P, NewNbDiskP), NbDiskP is NewNbDiskP + 1.
-countByPlayer([D|C], P, NbDiskP) :- countByPlayer(C, P, NbDiskP).
+countByPlayer([_|C], P, NbDiskP) :- countByPlayer(C, P, NbDiskP).
 
 heuristic_compute(_,_,0,0).
 heuristic_compute(NbDiskP1, NbDiskP2, Somme, H) :- H is 100 * (NbDiskP1-NbDiskP2) / Somme.

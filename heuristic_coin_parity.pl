@@ -10,8 +10,8 @@
 heuristic_coin_parity(Board, P1, P2, H) :-
 	%compter le nombre de jetons pour P1 puis
     %compter le nombre de jetons pour P2
-    countDiskPerPlayer(Board,P1,0,NbDiskP1).
-    countDiskPerPlayer(Board,P2,0,NbDiskP2).
+    countDiskPerPlayer(Board,P1,0,NbDiskP1),
+    countDiskPerPlayer(Board,P2,0,NbDiskP2),
     Somme is NbDiskP1 + NbDiskP2,
     %Calculer l heuristique
     heuristic_coin_parity_compute(NbDiskP1, NbDiskP2, Somme, H).

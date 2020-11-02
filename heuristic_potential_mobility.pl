@@ -1,5 +1,4 @@
-% Mobility Heuristic 
-
+% POTENTIAL MOBILITY HEURISTIC
 :-writeln('potential mobility heuristic has loaded').
 
 %Board le plateau actuel
