@@ -17,18 +17,25 @@ getKey(Board, Key, Player) :- atomic_list_concat(Board,KeyInter), atom_concat(Ke
 
 %Implementation of the iterative deepening depth-first search 
 %Increase the depth and launch the mtdf algorithm until depth max is reached or time is out.
-ids(_, Depth, TimeMax, _, _, Move, FinalMove, Time) :- 
+ids(_, Depth, TimeMax, _, _, _, Move, FinalMove, Time) :-
       get_time(NewTime),
       DiffTime is (NewTime-Time)*(NewTime-Time),
       DiffTime >= TimeMax,
       write("DEPTH = "),
       DepthDisp is Depth-1,
       writeln(DepthDisp),
-      FinalMove is Move.
-ids(FirstGuess, Depth, TimeMax, Board, Player, _, FinalMove, Time) :-
+      FinalMove is Move,!.
+ids(_, Depth, _, DepthMax, _, _, Move, FinalMove, _) :-
+      Depth > DepthMax,
+      write("DEPTH = "),
+      DepthDisp is Depth-1,
+      writeln(DepthDisp),
+      FinalMove is Move,!.
+ids(FirstGuess, Depth, TimeMax, DepthMax, Board, Player, _, FinalMove, Time) :-
+      Depth =< DepthMax,
       mtdf(-1000000, 1000000, Depth, Board, Player, FirstGuess, _, NewMove, Value),
       NewDepth is Depth+1,
-      ids(Value, NewDepth, TimeMax, Board, Player, NewMove, FinalMove, Time).
+      ids(Value, NewDepth, TimeMax, DepthMax, Board, Player, NewMove, FinalMove, Time),!.
 
 %Memory-enhanced Test Driver algorithm 
 %Launch alpha-beta algorithm with a zero-window search, search for a bound to the minimax value until converging to the minimax value.
@@ -176,15 +183,15 @@ alpha_beta_horizontal_vide(Moves, Board, D, Player, Move0, BestValue, BestMove, 
       alpha_beta_vertical(D, Board, Opponent, OppValue, _OppMove, OppAlpha, OppBeta),
       Value is -OppValue,
       (
-            Value >= Beta -> 
-            BestValue = Value, BestMove = Move ;
+            Value >= Beta ->
+            BestValue = Value ;
             (
                   (
-                        Value > Alpha ->        
-                        alpha_beta_horizontal(Moves, Board, D, Player, Move, BestValue, BestMove, Value, Beta,Value,Move) ;
+                        Value > Alpha ->
+                        alpha_beta_horizontal(Moves, Board, D, Player, _, BestValue, BestMove, Value, Beta,Value,_) ;
                         (
-                              Value > OldValue -> 
-                              alpha_beta_horizontal(Moves, Board, D, Player, Move0, BestValue, BestMove, Alpha, Beta,Value,Move) ;
+                              Value > OldValue ->
+                              alpha_beta_horizontal(Moves, Board, D, Player, Move0, BestValue, BestMove, Alpha, Beta,Value,_) ;
                               alpha_beta_horizontal(Moves, Board, D, Player, Move0, BestValue, BestMove, Alpha, Beta,OldValue,OldMove)
                         )
                   )

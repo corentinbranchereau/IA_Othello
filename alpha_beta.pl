@@ -1,8 +1,8 @@
-% MINIMAX
-% IA selon la methode minimax
+% ALPHA BETA
+% IA selon la methode minimax et l elagage alpha beta
 % Elle cherche les differents coups à jouer sur une profondeur donnée, puis selectionne le chemin qui mene vers le meilleur selon lheuristique choisie.
 
-:- writeln('Minimax has loaded.').
+:- writeln('Alpha beta has loaded.').
 
 %Select the chosen heuristic
 heuristic(2, Board, Value, _, _) :- heuristic_disk_diff(Board, Value).
@@ -100,11 +100,11 @@ alpha_beta_horizontal_vide(Moves, Board, D, Player, Move0, BestValue, BestMove, 
       alpha_beta_vertical(D, Board, Opponent, OppValue, _OppMove, OppAlpha, OppBeta),
       Value is -OppValue,
       (
-            Value >= Beta -> 
-            BestValue = Value, BestMove = Move ;
+            Value >= Beta ->
+            BestValue = Value ;
    	      (
-                  Value > Alpha ->        
-                  alpha_beta_horizontal(Moves, Board, D, Player, Move, BestValue, BestMove, Value, Beta) ; 
+                  Value > Alpha ->
+                  alpha_beta_horizontal(Moves, Board, D, Player, _, BestValue, BestMove, Value, Beta) ;
                   alpha_beta_horizontal(Moves, Board, D, Player, Move0, BestValue, BestMove, Alpha, Beta)
             )
       ).

@@ -264,7 +264,9 @@ ia(Board, Player, Move) :-
 			get_time(Time),
 			assertz(playerini(-1, Opponent)),
 			assertz(playerini(1, Player)),
-			ids(0,1,TimeMax,BoardCopie,1,_,Move,Time),
+			countDisk(Board,0,0,B,W),
+			DepthMax is (64 - B - W),
+			ids(0,1,TimeMax,DepthMax,BoardCopie,1,_,Move,Time),
 			retract(playerini(-1, Opponent)),
 			retract(playerini(1, Player))
 		)
