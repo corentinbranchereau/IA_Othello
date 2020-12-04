@@ -1,2 +1,4 @@
 # Prolog-Othello_IA
-A prolog implementation of Othello with IA
+
+INSA Project: The goal was to implement an Artifical Intelligence playing Othello, and to compare different heuristics.
+
